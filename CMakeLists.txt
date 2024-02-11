@@ -43,16 +43,16 @@ CPMAddPackage(
 #find_package(SDL2 REQUIRED)
 find_package(sdl REQUIRED)
 
-if(WIN32)
-    # -lmingw32: gcc adds it automatically.
-    # -mwindows: doesn't make sense.
-    # -lSDL2main: the dll doesn't need it, the test apps are console-only
-    #  and specifically define SDL_MAIN_HANDLED.  it will be ignored.
-    string(REGEX REPLACE "-mwindows" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
-    string(REGEX REPLACE "-lmingw32" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
-#   string(REGEX REPLACE "-lSDL2main" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
-    string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
-endif()
+#if(WIN32)
+#    # -lmingw32: gcc adds it automatically.
+#    # -mwindows: doesn't make sense.
+#    # -lSDL2main: the dll doesn't need it, the test apps are console-only
+#    #  and specifically define SDL_MAIN_HANDLED.  it will be ignored.
+#    string(REGEX REPLACE "-mwindows" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
+#    string(REGEX REPLACE "-lmingw32" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
+##   string(REGEX REPLACE "-lSDL2main" "" SDL2_LIBRARIES "${SDL2_LIBRARIES}")
+#    string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
+#endif()
 
 if(UNIX AND NOT (WIN32 OR APPLE OR HAIKU OR EMSCRIPTEN))
     find_library(LIBM_LIBRARY m)
@@ -95,7 +95,8 @@ if(SDLSOUND_DECODER_VORBIS AND LIBM_LIBRARY)
 endif()
 
 if(APPLE)
-    sdlsound_decoder_option(COREAUDIO "CoreAudio" "various audio formats" TRUE)
+#    sdlsound_decoder_option(COREAUDIO "CoreAudio" "various audio formats" TRUE)
+    sdlsound_decoder_option(COREAUDIO "CoreAudio" "various audio formats" FALSE)
     if(SDLSOUND_DECODER_COREAUDIO)
         set(OPTIONAL_LIBRARY_LIBS ${OPTIONAL_LIBRARY_LIBS} "-framework AudioToolbox")
         set(PC_LIBS ${PC_LIBS} "-framework AudioToolbox")
